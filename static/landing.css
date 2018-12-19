@@ -1,0 +1,20 @@
+.Main {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Button {
+  margin: 10%;
+  transition: filter 0.5s;
+  filter: grayscale(75%);
+}
+
+.Button:hover {
+  transition: filter 0.5s;
+  filter: grayscale(0%);
+}

@@ -1,0 +1,17 @@
+{
+  "name": "soccer-pong",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "scripts": {
+    "clean": "rm -rf ../static/game/game.js*",
+    "build": "npm run-script clean && webpack -p",
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "webpack": "^4.28.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.2"
+  }
+}
