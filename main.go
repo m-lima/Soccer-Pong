@@ -6,11 +6,6 @@ import (
 	"net/http"
 )
 
-const (
-	disableCors = true
-	socketPath  = "/socket/"
-)
-
 func main() {
 	landing := http.FileServer(http.Dir("static"))
 	http.Handle("/", landing)
@@ -20,6 +15,6 @@ func main() {
 	go handleMessages()
 	prepareGame()
 
-	log.Println("Listening...")
-	http.ListenAndServe(":3000", nil)
+	log.Println("Listening on", host)
+	http.ListenAndServe(host, nil)
 }

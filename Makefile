@@ -2,36 +2,37 @@
 default_target: build
 .PHONY : default_target
 
-# Build rule for target.
-buildDevFront:
-	-npm --prefix web run-script dev
-.PHONY : buildFront
+install:
+	-npm --prefix web install
+	go get -tags prod
+.PHONY : install
 
-buildFront:
+build: install
 	-npm --prefix web run-script build
-.PHONY : buildFront
+	go build -tags prod
+.PHONY : build
 
-buildBack:
-	go build
-.PHONY : buildBack
-
-run: buildFront buildBack
+run:
 	./soccer-pong
-.PHONY : startAll
-
-dev: buildDevFront buildBack
-	./soccer-pong
-.PHONY : dev
+.PHONY : run
 
 clean:
 	-go clean
 	-npm --prefix web run-script clean
 .PHONY : clean
 
+dev:
+	-npm --prefix web run-script dev
+	go build -tags dev
+	./soccer-pong
+.PHONY : dev
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
-	@echo "... build (the default if no target is provided)"
-	@echo "... start"
-	@echo "... clean"
+	@echo "... build	Installs and builds in prod mode (default target)"
+	@echo "... run		Runs the executable"
+	@echo "... clean	Cleans the build"
+	@echo "... dev		Builds and runs in dev mode"
+	@echo "... install	Installs the dependencies"
 .PHONY : help
