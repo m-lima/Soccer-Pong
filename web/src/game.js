@@ -31,6 +31,7 @@ class Game {
     }
 
     this.createStage()
+    this.createScore()
     this.createSocket()
 
     if (this.channel == 1 || this.channel == 2) {
@@ -67,6 +68,32 @@ class Game {
       PLAYER_SIZE)
   }
 
+  createScore() {
+    this.score1 = new PIXI.Text('0', {
+      fontSize: HEIGHT / 3,
+      fill: '#ff0000',
+      align: 'center',
+    })
+
+    this.score1.x = 3 * WIDTH / 10
+    this.score1.y = HEIGHT / 10
+    this.score1.anchor.x = 0.5
+    this.score1.alpha = 0.25
+
+    this.score2 = new PIXI.Text('0', {
+      fontSize: HEIGHT / 3,
+      fill: '#0000ff',
+      align: 'center',
+    })
+
+    this.score2.x = 7 * WIDTH / 10
+    this.score2.y = HEIGHT / 10
+    this.score2.anchor.x = 0.5
+    this.score2.alpha = 0.25
+
+    this.app.stage.addChild(this.score1, this.score2)
+  }
+
   createCrosshair() {
     this.crosshair = new Drawables.Crosshair(
       this.app,
@@ -92,6 +119,12 @@ class Game {
     this.keyUp = keyboard('ArrowUp')
     this.keyRight = keyboard('ArrowRight')
     this.keyDown = keyboard('ArrowDown')
+    window.addEventListener('keydown', (e) => {
+      if (e.key === ' ') {
+        this.socket.send({ x: -123, y: -456 })
+        e.preventDefault()
+      }
+    }, false)
   }
 
   createMouse() {
@@ -102,10 +135,8 @@ class Game {
     this.ball.setCoordinates(data.ball.x, data.ball.y)
     this.player1.setCoordinates(data.players[0].x, data.players[0].y)
     this.player2.setCoordinates(data.players[1].x, data.players[1].y)
-
-    if (this.channel == 1) {
-    } else if (this.channel == 2) {
-    }
+    this.score1.text = (data.score >> 8) & 0xff
+    this.score2.text = data.score & 0xff
   }
 
   tick(delta) {

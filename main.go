@@ -18,7 +18,7 @@ func main() {
 	http.HandleFunc(socketPath, handleConnections)
 
 	go handleMessages()
-	go gameLoop()
+	prepareGame()
 
 	log.Println("Listening...")
 	http.ListenAndServe(":3000", nil)

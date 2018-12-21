@@ -76,6 +76,11 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 				break
 			}
 
+			if msg.X == -123 && msg.Y == -456 {
+				startGame()
+				continue
+			}
+
 			// socketLogStd.Printf("Received %+v\n", msg)
 			gameStatus.Crosshairs[channel] = msg
 		}

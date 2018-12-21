@@ -41,9 +41,10 @@ var (
 	}
 
 	ballSpeed = Speed{}
+	ticking   = false
 )
 
-func prepare() {
+func prepareGame() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	gameStatus.Players[0] = Position{X: playerRadius, Y: height / 2.0}
@@ -62,12 +63,19 @@ func prepare() {
 
 	gameLogStd.Println("Speed", ballSpeed)
 
+	ticking = false
+
 	broadcast <- gameStatus
 }
 
-func gameLoop() {
-	prepare()
+func startGame() {
+	if !ticking {
+		go gameLoop()
+	}
+}
 
+func gameLoop() {
+	ticking = true
 	for range time.Tick(32 * time.Millisecond) {
 		crosshair1 := Position{
 			X: gameStatus.Crosshairs[0].X,
@@ -86,7 +94,8 @@ func gameLoop() {
 		hitBall(1)
 
 		if checkPoint() {
-			prepare()
+			prepareGame()
+			return
 		}
 
 		broadcast <- gameStatus
@@ -184,11 +193,11 @@ func checkPoint() bool {
 	if gameStatus.Ball.Y >= goalTop && gameStatus.Ball.Y <= goalBottom {
 		if gameStatus.Ball.X == ballRadius {
 			gameStatus.Score++
-			gameLogStd.Println("Point to player 1")
+			gameLogStd.Println("Point to player 2")
 			return true
 		} else if gameStatus.Ball.X == width-ballRadius {
-			gameLogStd.Println("Point to player 2")
-			gameStatus.Score += 128
+			gameLogStd.Println("Point to player 1")
+			gameStatus.Score += 256
 			return true
 		}
 	}
