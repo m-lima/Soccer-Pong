@@ -3,6 +3,10 @@ default_target: build
 .PHONY : default_target
 
 # Build rule for target.
+buildDevFront:
+	-npm --prefix web run-script dev
+.PHONY : buildFront
+
 buildFront:
 	-npm --prefix web run-script build
 .PHONY : buildFront
@@ -14,6 +18,10 @@ buildBack:
 run: buildFront buildBack
 	./soccer-pong
 .PHONY : startAll
+
+dev: buildDevFront buildBack
+	./soccer-pong
+.PHONY : dev
 
 clean:
 	-go clean

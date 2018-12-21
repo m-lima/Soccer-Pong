@@ -1,8 +1,10 @@
 # executable
-papo
+soccer-pong
+static/game/game.js*
 
 # dependencies
 web/node_modules
+static/lib
 
 # testing
 web/coverage

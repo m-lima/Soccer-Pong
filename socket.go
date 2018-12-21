@@ -38,7 +38,7 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 	// Upgrade initial GET request to a websocket
 	ws, err := upgrader.Upgrade(response, request, nil)
 	if err != nil {
-		socketLogErr.Fatal(err)
+		socketLogErr.Printf("upgrade error: %v", err)
 		return
 	}
 
@@ -46,32 +46,39 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 	defer ws.Close()
 
 	// Register our new client
-	player, err := strconv.Atoi(strings.TrimPrefix(request.URL.Path, socketPath))
+	channel, err := strconv.Atoi(strings.TrimPrefix(request.URL.Path, socketPath))
 	if err != nil {
-		socketLogErr.Fatal(err)
+		socketLogErr.Printf("connection error: %v", err)
 		return
 	}
-	if player != 1 && player != 2 {
-		socketLogErr.Println("invalid player:", player)
+	if channel < 0 || channel > 2 {
+		socketLogErr.Println("invalid channel:", channel)
 		return
 	}
 
-	player--
-	socketLogStd.Println("New connection to", player, "from", request.RemoteAddr)
+	socketLogStd.Println(
+		"New connection to channel",
+		channel,
+		"from",
+		request.RemoteAddr,
+	)
+
 	clients[ws] = true
 
+	channel--
 	for {
-		var msg Position
-		// Read in a new message as JSON and map it to a Message object
-		err := ws.ReadJSON(&msg)
-		if err != nil {
-			socketLogErr.Printf("error: %v", err)
-			delete(clients, ws)
-			break
-		}
+		if channel == 0 || channel == 1 {
+			var msg Position
+			err := ws.ReadJSON(&msg)
+			if err != nil {
+				socketLogErr.Printf("read error: %v", err)
+				delete(clients, ws)
+				break
+			}
 
-		gameStatus.Players[player] = msg
-		socketLogStd.Printf("Received: %v\n", msg)
+			// socketLogStd.Printf("Received %+v\n", msg)
+			gameStatus.Crosshairs[channel] = msg
+		}
 	}
 }
 
@@ -81,14 +88,13 @@ func handleMessages() {
 		msg := <-broadcast
 		// Send it out to every client that is currently connected
 		for client := range clients {
+			// socketLogStd.Printf("Sending %+v\n", msg)
 			err := client.WriteJSON(msg)
 			if err != nil {
-				socketLogErr.Printf("error: %v", err)
+				socketLogErr.Printf("write error: %v", err)
 				client.Close()
 				delete(clients, client)
 			}
-
-			socketLogStd.Printf("Sent: %v\n", msg)
 		}
 	}
 }

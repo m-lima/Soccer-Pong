@@ -5,7 +5,7 @@ const path = require('path');
 
 module.exports = {
 
-  entry: './src/index.js',
+  entry: './src/game.js',
 
   output: {
     path: path.resolve(__dirname, '..', 'static', 'game'),
@@ -19,5 +19,8 @@ module.exports = {
         use: 'raw-loader'
       }
     ]
-  }
+  },
+
+  // devtool: 'source-map'
+  devtool: 'cheap-source-map'
 };

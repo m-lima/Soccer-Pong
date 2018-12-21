@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "clean": "rm -rf ../static/game/game.js*",
-    "build": "npm run-script clean && webpack -p",
+    "build": "npm run-script clean && webpack --mode production",
+    "dev": "npm run-script clean && webpack --mode development",
     "start": "webpack-dev-server"
   },
   "dependencies": {

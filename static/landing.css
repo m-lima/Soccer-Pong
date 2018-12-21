@@ -4,12 +4,35 @@
   width: 100%;
 
   display: flex;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.Title {
+  width: 50%;
+
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+}
+
+.Buttons {
+  width: 50%;
+
+  display: block;
+  justify-content: center;
+}
+
+.PlayerButtons {
+  width: 100%;
+
+  display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .Button {
-  margin: 10%;
+  margin: 0 10% 0 10%;
   transition: filter 0.5s;
   filter: grayscale(75%);
 }
@@ -18,3 +41,17 @@
   transition: filter 0.5s;
   filter: grayscale(0%);
 }
+
+.Line {
+  margin: 0;
+  padding: 0;
+}
+
+.Bottom {
+  width: 100%;
+
+  display: block;
+  text-align: center;
+}
+
+// #0cf055

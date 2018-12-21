@@ -11,7 +11,8 @@ type Speed struct {
 }
 
 type GameStatus struct {
-	Players []Position `json:"players"`
-	Ball    Position   `json:"position"`
-	Score   int        `json:"score"`
+	Players    []Position `json:"players"`
+	Crosshairs []Position `json:"crosshairs"`
+	Ball       Position   `json:"ball"`
+	Score      int        `json:"score"`
 }
