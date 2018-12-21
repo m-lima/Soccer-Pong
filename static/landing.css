@@ -1,23 +1,32 @@
+img {
+  max-width: 100%;
+}
+
 .Main {
+  width: 80%;
+}
+
+.Options {
   margin: 0;
   padding: 0;
   width: 100%;
 
   display: flex;
-  /* align-items: center; */
-  /* justify-content: center; */
+  justify-content: center;
 }
 
-.Title {
+.LeftColumn {
   width: 50%;
+  padding: 0 10% 0 10%;
 
   display: flex;
   align-items: baseline;
   justify-content: center;
 }
 
-.Buttons {
+.RightColumn {
   width: 50%;
+  padding: 0 10% 0 10%;
 
   display: block;
   justify-content: center;
@@ -42,16 +51,8 @@
   filter: grayscale(0%);
 }
 
-.Line {
-  margin: 0;
-  padding: 0;
-}
-
-.Bottom {
+.SpectatorButtons {
   width: 100%;
-
-  display: block;
-  text-align: center;
 }
 
 // #0cf055

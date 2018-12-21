@@ -1,3 +1,3 @@
-[ ]  Scaling
+[X]  Scaling
 [ ]  Mouse
 [X]  Space to start
