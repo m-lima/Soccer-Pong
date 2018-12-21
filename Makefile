@@ -27,6 +27,13 @@ dev:
 	./soccer-pong
 .PHONY : dev
 
+docker:
+	-docker build -t soccer-pong .
+	-docker stop soccer-pong
+	-docker rm soccer-pong
+	-docker create --name soccer-pong soccer-pong
+.PHONY : docker
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
