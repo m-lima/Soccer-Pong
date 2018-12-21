@@ -1,3 +1,9 @@
+[ ]  Bigger mouse
+[ ]  Better keyboard event
+[ ]  Start game without space
+[ ]  Organize code
+[ ]   * JS
+[ ]   * GO
 [X]  Scaling
-[ ]  Mouse
+[X]  Mouse
 [X]  Space to start

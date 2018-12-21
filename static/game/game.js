@@ -204,6 +204,7 @@ class Game {
   constructor() {
     this.tick = this.tick.bind(this)
     this.receive = this.receive.bind(this)
+    this.processTouch = this.processTouch.bind(this)
 
     let query = new URLSearchParams(window.location.search)
     if (!query.has('channel')) {
@@ -293,7 +294,7 @@ class Game {
     this.lastY = this.crosshair.shape.y
 
     this.createKeyboard()
-    this.createMouse()
+    this.createPointer()
   }
 
   createSocket() {
@@ -314,7 +315,10 @@ class Game {
     }, false)
   }
 
-  createMouse() {
+  createPointer() {
+    console.log('creating mouse')
+    this.app.stage.interactive = true
+    this.app.stage.on('pointermove', this.processTouch)
   }
 
   receive(e) {
@@ -324,6 +328,29 @@ class Game {
     this.player2.setCoordinates(data.players[1].x, data.players[1].y)
     this.score1.text = (data.score >> 8) & 0xff
     this.score2.text = data.score & 0xff
+  }
+
+  processTouch(e) {
+    let x = e.data.global.x
+    let y = e.data.global.y
+
+    let minX = (this.channel - 1 ) * HALF_WIDTH + PLAYER_SIZE
+    let maxX = this.channel * HALF_WIDTH - PLAYER_SIZE
+
+    if (x < minX) {
+      x = minX
+    } else if (x > maxX) {
+      x = maxX
+    }
+
+    if (y < PLAYER_SIZE) {
+      y = PLAYER_SIZE
+    } else if (y > HEIGHT - PLAYER_SIZE) {
+      y = HEIGHT - PLAYER_SIZE
+    }
+
+    this.crosshair.setCoordinates(x, y)
+    this.updatePosition()
   }
 
   tick(delta) {
@@ -364,12 +391,16 @@ class Game {
         this.crosshair.setCoordinates(x, y)
       }
 
-      if (this.crosshair.shape.x != this.lastX
-        || this.crosshair.shape.y != this.lastY) {
-        this.lastX = this.crosshair.shape.x
-        this.lastY = this.crosshair.shape.y
-        this.socket.send({ x: this.lastX, y: this.lastY })
-      }
+      this.updatePosition()
+    }
+  }
+
+  updatePosition() {
+    if (this.crosshair.shape.x != this.lastX
+      || this.crosshair.shape.y != this.lastY) {
+      this.lastX = this.crosshair.shape.x
+      this.lastY = this.crosshair.shape.y
+      this.socket.send({ x: this.lastX, y: this.lastY })
     }
   }
 }
