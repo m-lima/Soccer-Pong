@@ -65,17 +65,17 @@ func prepareGame() {
 
 	gameLogStd.Println("Speed", ballSpeed)
 
-	broadcast <- gameStatus
+	sendStatus()
 }
 
 func startGame() {
 	if !ticking {
+		ticking = true
 		go gameLoop()
 	}
 }
 
 func gameLoop() {
-	ticking = true
 	for range time.Tick(20 * time.Millisecond) {
 		if !ticking {
 			return
@@ -92,7 +92,7 @@ func gameLoop() {
 			return
 		}
 
-		broadcast <- gameStatus
+		sendStatus()
 	}
 }
 

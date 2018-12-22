@@ -12,7 +12,6 @@ func main() {
 
 	http.HandleFunc(socketPath, handleConnections)
 
-	go handleMessages()
 	prepareGame()
 
 	log.Println("Listening on", host)

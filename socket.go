@@ -15,8 +15,8 @@ var (
 	socketLogStd = log.New(os.Stdout, "[socket] ", log.Ldate|log.Ltime)
 	socketLogErr = log.New(os.Stderr, "ERROR [socket] ", log.Ldate|log.Ltime)
 
-	clients   = make(map[*websocket.Conn]bool)
-	broadcast = make(chan GameStatus)
+	clients = make(map[*websocket.Conn]bool)
+	// broadcast = make(chan GameStatus)
 
 	upgrader = websocket.Upgrader{
 		CheckOrigin: func(request *http.Request) bool {
@@ -73,7 +73,7 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 			socketLogErr.Printf("read error: %v", err)
 			ws.Close()
 			delete(clients, ws)
-			break
+			return
 		}
 
 		if msg.X == -123 {
@@ -94,19 +94,15 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func handleMessages() {
-	for {
-		// Grab the next message from the broadcast channel
-		msg := <-broadcast
-		// Send it out to every client that is currently connected
-		for client := range clients {
-			// socketLogStd.Printf("Sending %+v\n", msg)
-			err := client.WriteJSON(msg)
-			if err != nil {
-				socketLogErr.Printf("write error: %v", err)
-				client.Close()
-				delete(clients, client)
-			}
+func sendStatus() {
+	// Send it out to every client that is currently connected
+	for client := range clients {
+		// socketLogStd.Printf("Sending %+v\n", msg)
+		err := client.WriteJSON(gameStatus)
+		if err != nil {
+			socketLogErr.Printf("write error: %v", err)
+			client.Close()
+			delete(clients, client)
 		}
 	}
 }
