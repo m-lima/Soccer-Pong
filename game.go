@@ -45,6 +45,8 @@ var (
 )
 
 func prepareGame() {
+	ticking = false
+
 	rand.Seed(time.Now().UTC().UnixNano())
 
 	gameStatus.Players[0] = Position{X: playerRadius, Y: height / 2.0}
@@ -63,8 +65,6 @@ func prepareGame() {
 
 	gameLogStd.Println("Speed", ballSpeed)
 
-	ticking = false
-
 	broadcast <- gameStatus
 }
 
@@ -81,18 +81,8 @@ func gameLoop() {
 			return
 		}
 
-		crosshair1 := Position{
-			X: gameStatus.Crosshairs[0].X,
-			Y: gameStatus.Crosshairs[0].Y,
-		}
-
-		crosshair2 := Position{
-			X: gameStatus.Crosshairs[1].X,
-			Y: gameStatus.Crosshairs[1].Y,
-		}
-
-		movePlayer(0, &crosshair1)
-		movePlayer(1, &crosshair2)
+		movePlayer(0)
+		movePlayer(1)
 		moveBall()
 		hitBall(0)
 		hitBall(1)
@@ -106,10 +96,11 @@ func gameLoop() {
 	}
 }
 
-func movePlayer(player int, crosshair *Position) {
+func movePlayer(player int) {
 	playerSpeed := speed
 
-	if gameStatus.Players[player].Y >= goalTop && gameStatus.Players[player].Y <= goalBottom {
+	if gameStatus.Players[player].Y >= goalTop &&
+		gameStatus.Players[player].Y <= goalBottom {
 		if player == 0 {
 			if gameStatus.Players[player].X <= goalAreaWidth {
 				playerSpeed *= 0.5
@@ -119,7 +110,8 @@ func movePlayer(player int, crosshair *Position) {
 				playerSpeed *= 0.5
 			}
 		}
-	} else if gameStatus.Players[player].Y >= areaTop && gameStatus.Players[player].Y <= areaBottom {
+	} else if gameStatus.Players[player].Y >= areaTop &&
+		gameStatus.Players[player].Y <= areaBottom {
 		if player == 0 {
 			if gameStatus.Players[player].X <= largeAreaWidth {
 				playerSpeed *= 0.75
@@ -131,13 +123,13 @@ func movePlayer(player int, crosshair *Position) {
 		}
 	}
 
-	x := crosshair.X - gameStatus.Players[player].X
-	y := crosshair.Y - gameStatus.Players[player].Y
+	x := gameStatus.Crosshairs[player].X - gameStatus.Players[player].X
+	y := gameStatus.Crosshairs[player].Y - gameStatus.Players[player].Y
 	distance := math.Sqrt(x*x + y*y)
 
 	if distance <= playerSpeed {
-		gameStatus.Players[player].X = crosshair.X
-		gameStatus.Players[player].Y = crosshair.Y
+		gameStatus.Players[player].X = gameStatus.Crosshairs[player].X
+		gameStatus.Players[player].Y = gameStatus.Crosshairs[player].Y
 	} else {
 		gameStatus.Players[player].X += playerSpeed * x / distance
 		gameStatus.Players[player].Y += playerSpeed * y / distance

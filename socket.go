@@ -67,26 +67,27 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 
 	channel--
 	for {
-		if channel == 0 || channel == 1 {
-			var msg Position
-			err := ws.ReadJSON(&msg)
-			if err != nil {
-				socketLogErr.Printf("read error: %v", err)
-				delete(clients, ws)
-				break
-			}
+		var msg Position
+		err := ws.ReadJSON(&msg)
+		if err != nil {
+			socketLogErr.Printf("read error: %v", err)
+			ws.Close()
+			delete(clients, ws)
+			break
+		}
 
-			if msg.X == -123 {
-				if msg.Y == -1 {
-					startGame()
-					continue
-				} else if msg.Y == -2 {
-					gameStatus.Score = 0
-					prepareGame()
-					continue
-				}
+		if msg.X == -123 {
+			if msg.Y == -1 {
+				startGame()
+				continue
+			} else if msg.Y == -2 {
+				gameStatus.Score = 0
+				prepareGame()
+				continue
 			}
+		}
 
+		if channel != -1 {
 			// socketLogStd.Printf("Received %+v\n", msg)
 			gameStatus.Crosshairs[channel] = msg
 		}

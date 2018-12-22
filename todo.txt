@@ -1,9 +1,11 @@
-[ ]  Bigger mouse
 [ ]  Better keyboard event
-[ ]  Start game without space
+[ ]  Bigger mouse
 [ ]  Organize code
-[ ]   * JS
 [ ]   * GO
-[X]  Scaling
+[ ]   * JS
+[ ]  Start game without space
 [X]  Mouse
+[X]  Scaling
 [X]  Space to start
+[X]! Spectator mode
+[O]! Refactor WS code in go

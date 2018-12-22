@@ -221,6 +221,7 @@ class Game {
     this.createStage()
     this.createScore()
     this.createSocket()
+    this.createControls()
 
     if (this.channel == 1 || this.channel == 2) {
       this.createCrosshair()
@@ -282,6 +283,21 @@ class Game {
     this.app.stage.addChild(this.score1, this.score2)
   }
 
+  createControls() {
+    window.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case ' ':
+          this.socket.send({ x: -123, y: -1 })
+          e.preventDefault()
+          return
+        case 'r':
+          this.socket.send({ x: -123, y: -2 })
+          e.preventDefault()
+          return
+      }
+    }, false)
+  }
+
   createCrosshair() {
     this.crosshair = new _drawables_js__WEBPACK_IMPORTED_MODULE_3__["Crosshair"](
       this.app,
@@ -307,18 +323,6 @@ class Game {
     this.keyUp = Object(_keyboard_js__WEBPACK_IMPORTED_MODULE_1__["default"])('ArrowUp')
     this.keyRight = Object(_keyboard_js__WEBPACK_IMPORTED_MODULE_1__["default"])('ArrowRight')
     this.keyDown = Object(_keyboard_js__WEBPACK_IMPORTED_MODULE_1__["default"])('ArrowDown')
-    window.addEventListener('keydown', (e) => {
-      switch (e.key) {
-        case ' ':
-          this.socket.send({ x: -123, y: -1 })
-          e.preventDefault()
-          return
-        case 'r':
-          this.socket.send({ x: -123, y: -2 })
-          e.preventDefault()
-          return
-      }
-    }, false)
   }
 
   createPointer() {
