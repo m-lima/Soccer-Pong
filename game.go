@@ -23,10 +23,10 @@ const (
 
 	speed = 10.0
 
-	ballRadius     = 5.0
-	ballDiameter   = 10.0
-	playerRadius   = 15.0
-	playerDiameter = 30.0
+	ballRadius     = 10.0
+	ballDiameter   = 20.0
+	playerRadius   = 30.0
+	playerDiameter = 60.0
 )
 
 var (

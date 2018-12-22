@@ -194,9 +194,9 @@ const WIDTH = 1200
 const HEIGHT = 800
 const HALF_WIDTH = WIDTH / 2
 
-const PLAYER_SIZE = 15
-const BALL_SIZE = 5
-const CROSSHAIR_SIZE = 10
+const PLAYER_SIZE = 30
+const BALL_SIZE = 10
+const CROSSHAIR_SIZE = 15
 
 const CROSSHAIR_SPEED = 5
 
