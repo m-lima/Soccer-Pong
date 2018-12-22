@@ -121,9 +121,15 @@ class Game {
     this.keyRight = keyboard('ArrowRight')
     this.keyDown = keyboard('ArrowDown')
     window.addEventListener('keydown', (e) => {
-      if (e.key === ' ') {
-        this.socket.send({ x: -123, y: -456 })
-        e.preventDefault()
+      switch (e.key) {
+        case ' ':
+          this.socket.send({ x: -123, y: -1 })
+          e.preventDefault()
+          return
+        case 'r':
+          this.socket.send({ x: -123, y: -2 })
+          e.preventDefault()
+          return
       }
     }, false)
   }

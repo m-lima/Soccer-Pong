@@ -76,9 +76,15 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 				break
 			}
 
-			if msg.X == -123 && msg.Y == -456 {
-				startGame()
-				continue
+			if msg.X == -123 {
+				if msg.Y == -1 {
+					startGame()
+					continue
+				} else if msg.Y == -2 {
+					gameStatus.Score = 0
+					prepareGame()
+					continue
+				}
 			}
 
 			// socketLogStd.Printf("Received %+v\n", msg)

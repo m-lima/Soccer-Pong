@@ -77,6 +77,10 @@ func startGame() {
 func gameLoop() {
 	ticking = true
 	for range time.Tick(20 * time.Millisecond) {
+		if !ticking {
+			return
+		}
+
 		crosshair1 := Position{
 			X: gameStatus.Crosshairs[0].X,
 			Y: gameStatus.Crosshairs[0].Y,
