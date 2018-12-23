@@ -142,6 +142,7 @@ class Game {
     console.log('creating mouse')
     this.app.stage.interactive = true
     this.app.stage.on('pointermove', this.processTouch)
+    this.app.stage.on('pointertap', () => this.socket.send({ x: -123, y: -1}))
   }
 
   receive(e) {

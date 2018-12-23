@@ -1,6 +1,7 @@
 # executable
 soccer-pong
-static/game/game.js*
+static/game/*.js
+static/game/*.js.map
 
 # dependencies
 web/node_modules
