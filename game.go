@@ -44,6 +44,11 @@ var (
 	ticking   = false
 )
 
+func resetGame() {
+	gameStatus.Score = 0
+	prepareGame()
+}
+
 func prepareGame() {
 	ticking = false
 

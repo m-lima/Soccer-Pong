@@ -2,9 +2,19 @@ img {
   max-width: 100%;
 }
 
+button {
+  border: 0;
+  border-radius: 0;
+  background: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
 .Main {
-  width: 80%;
   text-align: center;
+}
+
+.Logo {
 }
 
 .Options {
@@ -50,6 +60,15 @@ img {
 .Button:hover {
   transition: filter 0.5s;
   filter: grayscale(0%);
+}
+
+.Reset {
+  /* padding: 0 30% 0 30%; */
+  width: 25%;
+}
+
+.Reset:active {
+  filter: invert(100%);
 }
 
 .SpectatorButtons {

@@ -81,8 +81,7 @@ func handleConnections(response http.ResponseWriter, request *http.Request) {
 				startGame()
 				continue
 			} else if msg.Y == -2 {
-				gameStatus.Score = 0
-				prepareGame()
+				resetGame()
 				continue
 			}
 		}

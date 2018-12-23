@@ -10,7 +10,7 @@
   <body>
     <div class="Main">
 
-      <img src="/img/logo.png" />
+      <img class="Logo" src="/img/logo.png" />
 
       <div class="Options">
 
@@ -35,6 +35,10 @@
           </div>
         </div>
       </div>
+
+      <button class="Reset" onclick="fetch('/reset', { method: 'POST' })" >
+        <img src="/img/reset.png" />
+      </button>
     </div>
   </body>
 </html>
