@@ -81,7 +81,10 @@ func startGame() {
 }
 
 func gameLoop() {
-	for range time.Tick(20 * time.Millisecond) {
+	ticker := time.NewTicker(20 * time.Millisecond)
+	defer ticker.Stop()
+
+	for range ticker.C {
 		if !ticking {
 			return
 		}
