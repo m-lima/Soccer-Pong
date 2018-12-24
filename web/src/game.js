@@ -15,7 +15,6 @@ const CROSSHAIR_SPEED = 5
 
 class Game {
   constructor() {
-    this.tick = this.tick.bind(this)
     this.receive = this.receive.bind(this)
     this.processTouch = this.processTouch.bind(this)
 
@@ -122,20 +121,12 @@ class Game {
     this.lastX = this.crosshair.shape.x
     this.lastY = this.crosshair.shape.y
 
-    this.createKeyboard()
     this.createPointer()
   }
 
   createSocket() {
     this.socket = new Socket()
     this.socket.connect(this.channel, this.receive)
-  }
-
-  createKeyboard() {
-    this.keyLeft = keyboard('ArrowLeft')
-    this.keyUp = keyboard('ArrowUp')
-    this.keyRight = keyboard('ArrowRight')
-    this.keyDown = keyboard('ArrowDown')
   }
 
   createPointer() {
@@ -175,48 +166,6 @@ class Game {
 
     this.crosshair.setCoordinates(x, y)
     this.updatePosition()
-  }
-
-  tick(delta) {
-    let x = 0
-    let y = 0
-
-    if (this.keyLeft.isDown) x -= CROSSHAIR_SPEED
-    if (this.keyUp.isDown) y -= CROSSHAIR_SPEED
-    if (this.keyRight.isDown) x += CROSSHAIR_SPEED
-    if (this.keyDown.isDown) y += CROSSHAIR_SPEED
-
-    if (x != 0 || y != 0) {
-      this.crosshair.move(x * delta, y * delta)
-
-      let minX = (this.channel - 1 ) * HALF_WIDTH + PLAYER_SIZE
-      let maxX = this.channel * HALF_WIDTH - PLAYER_SIZE
-
-      x = this.crosshair.x
-      y = this.crosshair.y
-      let move = false
-      if (this.crosshair.x < minX) {
-        x = minX
-        move = true
-      } else if (this.crosshair.x > maxX) {
-        x = maxX
-        move = true
-      }
-
-      if (this.crosshair.y < PLAYER_SIZE) {
-        y = PLAYER_SIZE
-        move = true
-      } else if (this.crosshair.y > HEIGHT - PLAYER_SIZE) {
-        y = HEIGHT - PLAYER_SIZE
-        move = true
-      }
-
-      if (move) {
-        this.crosshair.setCoordinates(x, y)
-      }
-
-      this.updatePosition()
-    }
   }
 
   updatePosition() {
