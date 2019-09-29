@@ -31,7 +31,7 @@ docker:
 	-docker build -t soccer-pong .
 	-docker stop soccer-pong
 	-docker rm soccer-pong
-	-docker create --name soccer-pong soccer-pong
+	-docker create --net fly --name soccer-pong soccer-pong
 .PHONY : docker
 
 # Help Target
