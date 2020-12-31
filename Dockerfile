@@ -19,7 +19,7 @@ COPY *.go /go/src/soccer-pong/
 RUN go get -tags prod && go install -tags prod
 
 # Main
-FROM golang
+FROM debian:stable-slim
 
 WORKDIR /opt/soccer-pong
 
