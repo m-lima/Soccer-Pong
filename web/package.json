@@ -10,9 +10,9 @@
     "start": "webpack-dev-server"
   },
   "dependencies": {
-    "webpack": "^4.28.0"
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^5.0.1"
   }
 }
